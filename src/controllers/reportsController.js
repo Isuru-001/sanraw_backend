@@ -9,9 +9,10 @@ const getDailySales = async (req, res) => {
     }
 };
 
-const getMonthlySales = async (req, res) => {
+const getSalesReport = async (req, res) => {
     try {
-        const data = await reportsService.getMonthlySales();
+        const { startDate, endDate } = req.query;
+        const data = await reportsService.getSalesReport(startDate, endDate);
         res.json(data);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -36,9 +37,39 @@ const getCreditReport = async (req, res) => {
     }
 };
 
+const getDailySalesTrend = async (req, res) => {
+    try {
+        const data = await reportsService.getDailySalesGrowthEx();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const getPaddyStock = async (req, res) => {
+    try {
+        const data = await reportsService.getPaddyStockReport();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const getInventorySummary = async (req, res) => {
+    try {
+        const data = await reportsService.getInventorySummary();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     getDailySales,
-    getMonthlySales,
+    getSalesReport,
     getInventoryReport,
-    getCreditReport
+    getCreditReport,
+    getDailySalesTrend,
+    getPaddyStock,
+    getInventorySummary
 };

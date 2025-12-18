@@ -5,9 +5,13 @@ const verifyToken = require('../middleware/authMiddleware');
 
 router.use(verifyToken);
 
-router.get('/sales/daily', reportsController.getDailySales);
-router.get('/sales/monthly', reportsController.getMonthlySales);
-router.get('/inventory', reportsController.getInventoryReport);
-router.get('/credit', reportsController.getCreditReport);
+router.get('/daily-sales', reportsController.getDailySales);
+router.get('/monthly-sales', reportsController.getSalesReport);
+router.get('/inventory-report', reportsController.getInventoryReport);
+router.get('/credit-report', reportsController.getCreditReport);
+
+router.get('/daily-trend', reportsController.getDailySalesTrend);
+router.get('/paddy-stock', reportsController.getPaddyStock);
+router.get('/inventory-summary', reportsController.getInventorySummary);
 
 module.exports = router;

@@ -4,8 +4,8 @@ const getDailySales = async () => {
     return await reportsModel.getDailySales();
 };
 
-const getMonthlySales = async () => {
-    return await reportsModel.getMonthlySales();
+const getSalesReport = async (startDate, endDate) => {
+    return await reportsModel.getSalesReport(startDate, endDate);
 };
 
 const getInventoryReport = async () => {
@@ -16,9 +16,24 @@ const getCreditReport = async () => {
     return await reportsModel.getCreditReport();
 };
 
+const getDailySalesGrowthEx = async () => {
+    return await reportsModel.getDailySalesGrowthEx();
+};
+
+const getPaddyStockReport = async () => {
+    return await reportsModel.getPaddyStockReport();
+};
+
+const getInventorySummary = async () => {
+    return await reportsModel.getInventorySummary();
+};
+
 module.exports = {
     getDailySales,
-    getMonthlySales,
+    getSalesReport,
     getInventoryReport,
-    getCreditReport
+    getCreditReport,
+    getDailySalesGrowthEx,
+    getPaddyStockReport,
+    getInventorySummary
 };

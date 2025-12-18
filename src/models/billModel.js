@@ -4,8 +4,8 @@ const pool = require('../config/db');
 const createBill = async (billData, items) => {
     const { bill_number, customer_name, customer_address, customer_phone, payment_type, total_price, discount_amount, net_price, user_id } = billData;
 
-    // Auto-set is_paid: true for cash, false for credit
-    const is_paid = payment_type === 'cash';
+    // Manual set required for all bills (including cash) per user request
+    const is_paid = false;
 
     const connection = await pool.getConnection();
     try {
