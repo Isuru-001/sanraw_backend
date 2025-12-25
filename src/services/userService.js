@@ -1,10 +1,36 @@
 const userModel = require('../models/userModel');
 const { hashPassword } = require('../utils/hash');
+const crypto = require('crypto');
+const { sendActivationEmail } = require('../utils/emailService');
 
 const createUser = async (userData) => {
     const { password } = userData;
     const password_hash = await hashPassword(password);
-    return await userModel.createUser({ ...userData, password_hash });
+
+    // Generate Activation Token
+    const activation_token = crypto.randomBytes(32).toString('hex');
+    const activation_expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    // Create user with inactive status and token
+    const userId = await userModel.createUser({ 
+        ...userData, 
+        password_hash,
+        status: 'inactive',
+        activation_token,
+        activation_expires
+    });
+
+    try {
+        // Send Email
+        await sendActivationEmail(userData.email, activation_token);
+    } catch (error) {
+        console.error("Email sending failed:", error);
+        // Rollback: Delete the user so they can try again
+        await userModel.deleteUser(userId);
+        throw new Error('Failed to send activation email. Please check email configuration.');
+    }
+
+    return userId;
 };
 
 const getAllUsers = async () => {

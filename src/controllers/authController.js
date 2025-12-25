@@ -28,6 +28,16 @@ const verifyOTP = async (req, res) => {
     res.json({ message: 'OTP Verified' });
 };
 
+const activateAccount = async (req, res) => {
+    try {
+        const { token } = req.params;
+        const result = await authService.activateAccount(token);
+        res.json(result);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
 const resetPassword = async (req, res) => {
     try {
         const { email, newPassword } = req.body;
@@ -78,6 +88,8 @@ module.exports = {
     signup,
     requestResetPassword,
     verifyOTP,
+    verifyOTP,
+    activateAccount,
     resetPassword,
     logout
 };

@@ -1,10 +1,10 @@
 const pool = require('../config/db');
 
 const createUser = async (userData) => {
-    const { first_name, last_name, email, password_hash, role } = userData;
+    const { first_name, last_name, email, password_hash, role, status, activation_token, activation_expires } = userData;
     const [result] = await pool.query(
-        'INSERT INTO user (first_name, last_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?)',
-        [first_name, last_name, email, password_hash, role]
+        'INSERT INTO user (first_name, last_name, email, password_hash, role, status, activation_token, activation_expires) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [first_name, last_name, email, password_hash, role, status || 'inactive', activation_token, activation_expires]
     );
     return result.insertId;
 };

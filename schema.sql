@@ -12,7 +12,9 @@ CREATE TABLE IF NOT EXISTS user (
     profile_image VARCHAR(500) DEFAULT NULL,
     phone_number VARCHAR(20) DEFAULT NULL,
     recovery_email VARCHAR(255) DEFAULT NULL,
-    status ENUM('active', 'inactive') DEFAULT 'active',
+    status ENUM('active', 'inactive') DEFAULT 'inactive',
+    activation_token VARCHAR(255) DEFAULT NULL,
+    activation_expires TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -134,7 +136,7 @@ CREATE TABLE IF NOT EXISTS bill_items (
 
 -- Sample User (password: admin123 - hashed with bcrypt)
 INSERT INTO user (first_name, last_name, email, password_hash, role, status) VALUES
-('Admin', 'User', 'admin@sanraw.com', '$2b$10$rZ3qKx8vK5YhF9YhF9YhF9YhF9YhF9YhF9YhF9YhF9YhF9YhF9Yh', 'owner', 'active');
+('Admin', 'User', 'admin@sanraw.com', '$2a$12$LaDYNvnc9rvD/P79dH0vjuqU4RXUwk4joEN0Qg2NWOpy9weSDMUNq', 'owner', 'active');
 
 INSERT INTO paddy (paddy_name, price, stock) VALUES 
 ('Basmati Rice', 150.00, 100),
