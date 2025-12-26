@@ -19,7 +19,7 @@ const requestResetPassword = async (req, res) => {
         const result = await authService.requestResetPassword(email);
         res.json(result);
     } catch (err) {
-        res.status(500).json({ message: 'Error processing request' });
+        res.status(400).json({ message: err.message });
     }
 };
 
@@ -83,6 +83,19 @@ const logout = async (req, res) => {
     }
 };
 
+const changePassword = async (req, res) => {
+    try {
+        const { email, currentPassword, newPassword } = req.body;
+        if (!email || !currentPassword || !newPassword) {
+            return res.status(400).json({ message: 'Email, current password, and new password are required' });
+        }
+        await authService.changePassword(email, currentPassword, newPassword);
+        res.json({ message: 'Password changed successfully' });
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
 module.exports = {
     login,
     signup,
@@ -91,5 +104,6 @@ module.exports = {
     verifyOTP,
     activateAccount,
     resetPassword,
+    changePassword,
     logout
 };

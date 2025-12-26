@@ -35,8 +35,8 @@ const login = async (email, password) => {
 const requestResetPassword = async (email) => {
     const user = await userModel.findUserByEmail(email);
     if (!user) {
-        // Fail silently or return success to avoid enumeration, but for this app I'll return success message.
-        return { message: 'If user exists, reset instructions sent.' };
+        // User explicitly requested this error message
+        throw new Error('the account must be exisit');
     }
 
     // Generate Reset Token
@@ -72,6 +72,23 @@ const resetPassword = async (token, newPassword) => {
     await userModel.resetUserPassword(user.id, hashedPassword);
     
     return { message: 'Password updated successfully' };
+};
+
+const changePassword = async (email, currentPassword, newPassword) => {
+    const user = await userModel.findUserByEmail(email);
+    if (!user) {
+        throw new Error('account is not exist');
+    }
+
+    const isMatch = await comparePassword(currentPassword, user.password_hash);
+    if (!isMatch) {
+        throw new Error('Invalid current password');
+    }
+
+    const hashedPassword = await hashPassword(newPassword);
+    await userModel.updatePassword(user.id, hashedPassword);
+
+    return { message: 'Password changed successfully' };
 };
 
 const signup = async (userData) => {
@@ -139,5 +156,6 @@ module.exports = {
     requestResetPassword,
     requestResetPassword,
     resetPassword,
+    changePassword,
     activateAccount
 };
