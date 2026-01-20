@@ -37,6 +37,26 @@ const getCreditReport = async (req, res) => {
     }
 };
 
+const getCreditPaymentReport = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        const data = await reportsService.getCreditPaymentReport(startDate, endDate);
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+const getPurchasesReport = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        const data = await reportsService.getPurchasesReport(startDate, endDate);
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 const getDailySalesTrend = async (req, res) => {
     try {
         const data = await reportsService.getDailySalesGrowthEx();
@@ -69,6 +89,8 @@ module.exports = {
     getSalesReport,
     getInventoryReport,
     getCreditReport,
+    getCreditPaymentReport,
+    getPurchasesReport,
     getDailySalesTrend,
     getPaddyStock,
     getInventorySummary

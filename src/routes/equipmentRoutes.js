@@ -6,10 +6,10 @@ const verifyRole = require('../middleware/roleMiddleware');
 
 router.use(verifyToken);
 
-router.post('/', verifyRole(['owner', 'employee']), equipmentController.createEquipment);
+router.post('/', verifyRole(['owner']), equipmentController.createEquipment);
 router.get('/', equipmentController.getAllEquipment);
 router.get('/:id', equipmentController.getEquipmentById);
-router.put('/:id', verifyRole(['owner', 'employee']), equipmentController.updateEquipment);
+router.put('/:id', verifyRole(['owner']), equipmentController.updateEquipment);
 router.delete('/:id', verifyRole(['owner']), equipmentController.deleteEquipment);
 
 module.exports = router;

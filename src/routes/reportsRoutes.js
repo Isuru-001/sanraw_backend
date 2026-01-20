@@ -9,6 +9,8 @@ router.get('/daily-sales', reportsController.getDailySales);
 router.get('/monthly-sales', reportsController.getSalesReport);
 router.get('/inventory-report', reportsController.getInventoryReport);
 router.get('/credit-report', reportsController.getCreditReport);
+router.get('/credit-payment-report', reportsController.getCreditPaymentReport);
+router.get('/inventory-purchase-report', reportsController.getPurchasesReport);
 
 router.get('/daily-trend', reportsController.getDailySalesTrend);
 router.get('/paddy-stock', reportsController.getPaddyStock);

@@ -16,6 +16,14 @@ const getCreditReport = async () => {
     return await reportsModel.getCreditReport();
 };
 
+const getCreditPaymentReport = async (startDate, endDate) => {
+    return await reportsModel.getCreditPaymentReport(startDate, endDate);
+};
+
+const getPurchasesReport = async (startDate, endDate) => {
+    return await reportsModel.getPurchasesReport(startDate, endDate);
+};
+
 const getDailySalesGrowthEx = async () => {
     return await reportsModel.getDailySalesGrowthEx();
 };
@@ -33,6 +41,8 @@ module.exports = {
     getSalesReport,
     getInventoryReport,
     getCreditReport,
+    getCreditPaymentReport,
+    getPurchasesReport,
     getDailySalesGrowthEx,
     getPaddyStockReport,
     getInventorySummary

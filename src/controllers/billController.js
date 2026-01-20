@@ -57,6 +57,13 @@ const getBillsByUser = async (req, res) => {
 
 const deleteBill = async (req, res) => {
     try {
+        const bill = await billModel.getBillById(req.params.id);
+        if (!bill) return res.status(404).json({ message: 'Bill not found' });
+
+        if (bill.is_expired) {
+            return res.status(400).json({ message: 'Bill has expired and cannot be returned/deleted' });
+        }
+
         await billModel.deleteBill(req.params.id);
         res.json({ message: 'Bill deleted successfully' });
     } catch (err) {
@@ -76,6 +83,13 @@ const updatePaymentStatus = async (req, res) => {
 
 const updateBill = async (req, res) => {
     try {
+        const bill = await billModel.getBillById(req.params.id);
+        if (!bill) return res.status(404).json({ message: 'Bill not found' });
+
+        if (bill.is_expired) {
+            return res.status(400).json({ message: 'Bill has expired and cannot be edited' });
+        }
+
         const { billData, items } = req.body;
         await billModel.updateBill(req.params.id, billData, items);
         res.json({ message: 'Bill updated successfully' });

@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS login_history (
 CREATE TABLE IF NOT EXISTS bill (
     id INT AUTO_INCREMENT PRIMARY KEY,
     bill_number VARCHAR(50) UNIQUE NOT NULL,
-    customer_name VARCHAR(255) NOT NULL,
+    customer_name VARCHAR(255) NULL,
     customer_address TEXT,
     customer_phone VARCHAR(20),
     payment_type ENUM('cash', 'credit') NOT NULL,
@@ -132,6 +132,42 @@ CREATE TABLE IF NOT EXISTS bill_items (
     discount DECIMAL(10, 2) DEFAULT 0.00,
     ext_price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (bill_id) REFERENCES bill(id) ON DELETE CASCADE
+);
+
+-- 10. Supplier Table
+CREATE TABLE IF NOT EXISTS supplier (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address TEXT,
+    phone VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 11. Purchase Bill Table
+CREATE TABLE IF NOT EXISTS purchase_bill (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    bill_number VARCHAR(50) UNIQUE NOT NULL,
+    supplier_id INT NOT NULL,
+    payment_type ENUM('cash', 'credit') NOT NULL,
+    total_price DECIMAL(10, 2) NOT NULL,
+    net_price DECIMAL(10, 2) NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (supplier_id) REFERENCES supplier(id),
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+-- 12. Purchase Bill Items Table
+CREATE TABLE IF NOT EXISTS purchase_bill_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    purchase_bill_id INT NOT NULL,
+    item_id INT NOT NULL,
+    category ENUM('paddy', 'equipment', 'fertilizer_pesticide') NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    quantity DECIMAL(10, 2) NOT NULL,
+    buy_price DECIMAL(10, 2) NOT NULL,
+    ext_price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (purchase_bill_id) REFERENCES purchase_bill(id) ON DELETE CASCADE
 );
 
 -- SAMPLE DATA

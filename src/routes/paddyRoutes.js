@@ -6,10 +6,10 @@ const verifyRole = require('../middleware/roleMiddleware');
 
 router.use(verifyToken);
 
-router.post('/', verifyRole(['owner', 'employee']), paddyController.createPaddy);
+router.post('/', verifyRole(['owner']), paddyController.createPaddy);
 router.get('/', paddyController.getAllPaddy);
 router.get('/:id', paddyController.getPaddyById);
-router.put('/:id', verifyRole(['owner', 'employee']), paddyController.updatePaddy);
+router.put('/:id', verifyRole(['owner']), paddyController.updatePaddy);
 router.delete('/:id', verifyRole(['owner']), paddyController.deletePaddy);
 
 module.exports = router;

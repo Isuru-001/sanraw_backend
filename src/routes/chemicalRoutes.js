@@ -6,10 +6,10 @@ const verifyRole = require('../middleware/roleMiddleware');
 
 router.use(verifyToken);
 
-router.post('/', verifyRole(['owner', 'employee']), chemicalController.createChemical);
+router.post('/', verifyRole(['owner']), chemicalController.createChemical);
 router.get('/', chemicalController.getAllChemicals);
 router.get('/:id', chemicalController.getChemicalById);
-router.put('/:id', verifyRole(['owner', 'employee']), chemicalController.updateChemical);
+router.put('/:id', verifyRole(['owner']), chemicalController.updateChemical);
 router.delete('/:id', verifyRole(['owner']), chemicalController.deleteChemical);
 
 module.exports = router;

@@ -41,5 +41,6 @@ module.exports = {
     getAllChemicals,
     getChemicalById,
     updateChemical,
-    deleteChemical
+    deleteChemical,
+    updateStock
 };

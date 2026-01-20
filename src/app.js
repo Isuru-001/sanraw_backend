@@ -30,6 +30,8 @@ const salesRoutes = require('./routes/salesRoutes');
 const creditRoutes = require('./routes/creditRoutes');
 const reportsRoutes = require('./routes/reportsRoutes');
 const billRoutes = require('./routes/billRoutes');
+const supplierRoutes = require('./routes/supplierRoutes');
+const purchaseRoutes = require('./routes/purchaseRoutes');
 
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
@@ -41,6 +43,8 @@ app.use('/sales', salesRoutes);
 app.use('/credit', creditRoutes);
 app.use('/reports', reportsRoutes);
 app.use('/bills', billRoutes);
+app.use('/suppliers', supplierRoutes);
+app.use('/purchases', purchaseRoutes);
 
 
 // Health Check

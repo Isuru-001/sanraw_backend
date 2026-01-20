@@ -53,6 +53,40 @@ const getCreditReport = async () => {
     return rows;
 };
 
+const getCreditPaymentReport = async (startDate, endDate) => {
+    let query = `
+        SELECT cp.*, u.first_name, u.last_name 
+        FROM credit_payment cp
+        JOIN user u ON cp.user_id = u.id
+    `;
+    const params = [];
+
+    if (startDate && endDate) {
+        query += ' WHERE DATE(cp.created_at) BETWEEN ? AND ?';
+        params.push(startDate, endDate);
+    }
+
+    query += ' ORDER BY cp.created_at DESC';
+
+    const [rows] = await pool.query(query, params);
+    return rows;
+};
+
+const getPurchasesReport = async (startDate, endDate) => {
+    let query = 'SELECT * FROM inventory_purchase';
+    const params = [];
+
+    if (startDate && endDate) {
+        query += ' WHERE DATE(created_at) BETWEEN ? AND ?';
+        params.push(startDate, endDate);
+    }
+
+    query += ' ORDER BY created_at DESC';
+
+    const [rows] = await pool.query(query, params);
+    return rows;
+};
+
 // --- New Chart Queries ---
 
 // Daily Sales Growth for Current Month
@@ -95,6 +129,8 @@ module.exports = {
     getSalesReport,
     getInventoryReport,
     getCreditReport,
+    getCreditPaymentReport,
+    getPurchasesReport,
     getDailySalesGrowthEx,
     getPaddyStockReport,
     getInventorySummary

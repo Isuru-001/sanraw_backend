@@ -71,7 +71,6 @@ const deleteUser = async (id) => {
     await pool.query('DELETE FROM user WHERE id = ?', [id]);
 };
 
-// Reset Password Logic Helpers
 const updatePassword = async (id, newPasswordHash) => {
     await pool.query('UPDATE user SET password_hash = ? WHERE id = ?', [newPasswordHash, id]);
 };
@@ -109,21 +108,6 @@ const clearLoginHistory = async (userId) => {
     await pool.query(query, [userId]);
 };
 
-const saveResetToken = async (email, token, expires) => {
-    const query = 'UPDATE user SET reset_token = ?, reset_expires = ? WHERE email = ?';
-    await pool.query(query, [token, expires, email]);
-};
-
-const findUserByResetToken = async (token) => {
-    const [rows] = await pool.query('SELECT * FROM user WHERE reset_token = ? AND reset_expires > NOW()', [token]);
-    return rows[0];
-};
-
-const resetUserPassword = async (userId, newPasswordHash) => {
-    const query = 'UPDATE user SET password_hash = ?, reset_token = NULL, reset_expires = NULL WHERE id = ?';
-    await pool.query(query, [newPasswordHash, userId]);
-};
-
 module.exports = {
     createUser,
     findUserByEmail,
@@ -136,8 +120,5 @@ module.exports = {
     logLogout,
     getLoginHistory,
     deleteLoginHistory,
-    clearLoginHistory,
-    saveResetToken,
-    findUserByResetToken,
-    resetUserPassword
+    clearLoginHistory
 };
